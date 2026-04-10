@@ -36,7 +36,33 @@
       zoom: 12
     });
 
-        // Add navigation controls (zoom, rotate, pitch)
+        // Show popup on click
+    map.on('click', 'trail-line-hit', function(e) {
+      const properties = e.features[0].properties;
+      const name = properties.name || 'Te Ara Hura';
+      const surface = properties.surface ? `<br>Surface: ${properties.surface}` : '';
+
+      new maplibregl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(`<strong>${name}</strong>${surface}`)
+        .addTo(map);
+    });
+
+    // Show hover layer and pointer cursor on mouseenter
+    map.on('mouseenter', 'trail-line-hit', function() {
+      map.getCanvas().style.cursor = 'pointer';
+      map.setLayoutProperty('trail-line', 'visibility', 'none');
+      map.setLayoutProperty('trail-line-hover', 'visibility', 'visible');
+    });
+
+    // Restore default layer and cursor on mouseleave
+    map.on('mouseleave', 'trail-line-hit', function() {
+      map.getCanvas().style.cursor = '';
+      map.setLayoutProperty('trail-line', 'visibility', 'visible');
+      map.setLayoutProperty('trail-line-hover', 'visibility', 'none');
+    });
+
+    // Add navigation controls (zoom, rotate, pitch)
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
 
     // Add scale bar
