@@ -74,22 +74,6 @@
       unit: 'metric'
     }), 'bottom-left');
 
-    // Add a home button
-    class HomeControl {
-      onAdd(map) {
-        this._map = map;
-        this._container = document.createElement('div');
-        this._container.className = 'maplibregl-ctrl maplibregl-ctrl-group';
-        this._container.innerHTML = '<button type="button" title="Home">⌂</button>';
-        this._container.addEventListener('click', () => {
-          map.flyTo({ center: [175.0709, -36.7990], zoom: 12, bearing: 0 });
-        });
-        return this._container;
-      }
-      onRemove() { this._container.remove(); }
-    }
-
-    map.addControl(new HomeControl(), 'top-right');
 </script>
 </body>
 </html>
